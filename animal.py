@@ -11,8 +11,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QMessageBox
 import sys
 import os
-import tkinter
-from tkinter import messagebox
 
 
 def IsEvidence(x):
@@ -33,46 +31,6 @@ def getData(x):
     return data
 
 
-def backs(data):
-    c = 0
-    flag = False
-    for i in data:
-        d = "if "
-        for s in range(0, len(i)):
-            if s == len(i) - 2:
-                d = d + str(i[s]) + " then "
-            else:
-                d = d + str(i[s]) + " "
-        window.TL.append(d)
-        for j in range(0, len(i) - 1):
-            if IsEvidence(i[j]):
-                root = tkinter.Tk()
-                root.withdraw()
-                a = messagebox.askquestion("提示", i[j] + "嗎")
-                print(i[j] + "吗?")
-                # r = input()
-                print(a)
-                if a == QMessageBox.Yes:
-                    c = c + 1
-            else:
-                temp = getData(i[j])
-                if backs(temp):
-                    c = c + 1
-        if c >= i.__len__() - 1:
-            flag = True
-            print(i[-1])
-            print("驗證成功")
-            break
-        else:
-            flag = False
-            print(i[-1])
-            print("驗證失敗")
-    if flag:
-        return True
-    else:
-        return False
-
-
 class mywindow(QWidget, Ui_Animals):
     fact = []
     conditions = set("")
@@ -91,6 +49,44 @@ class mywindow(QWidget, Ui_Animals):
             mywindow.res.add(i[-2])
         self.setupUi(self)
 
+    def backs(self, data):
+        c = 0
+        flag = False
+        for i in data:
+            d = "if "
+            for s in range(0, len(i)):
+                if s == len(i) - 2:
+                    d = d + str(i[s]) + " then "
+                else:
+                    d = d + str(i[s]) + " "
+            window.TL.append(d)
+            for j in range(0, len(i) - 1):
+                if IsEvidence(i[j]):
+                    a = QMessageBox.question(self, '提示', f"{i[j]}嗎",
+                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+                    print(i[j] + "嗎?")
+                    # r = input()
+                    # print(a)
+                    if a == QMessageBox.Yes:
+                        c = c + 1
+                else:
+                    temp = getData(i[j])
+                    if self.backs(temp):
+                        c = c + 1
+            if c >= i.__len__() - 1:
+                flag = True
+                print(i[-1])
+                print("驗證成功")
+                break
+            else:
+                flag = False
+                print(i[-1])
+                print("驗證失敗")
+        if flag:
+            return True
+        else:
+            return False
+
     def resizeEvent(self, event):
         palette = QPalette()
         # pix = QtGui.QPixmap('images/3.jpg')
@@ -105,16 +101,12 @@ class mywindow(QWidget, Ui_Animals):
             print(s)
             data = getData(s)
             print(data)
-            if backs(data):
-                root = tkinter.Tk()
-                root.withdraw()
-                a = messagebox.showinfo("提示", "該動物是" + data[0][-1])
+            if self.backs(data):
+                a = QMessageBox.information(self, "提示", f"該動物是{data[0][-1]}", QMessageBox.Yes)
                 self.result.setText("專家系統分析該動物是" + data[0][-1])
             else:
-                root = tkinter.Tk()
-                root.withdraw()
                 self.result.setText("專家分析該動物不是" + data[0][-1])
-                a = messagebox.showinfo("提示", "該動物不是" + data[0][-1])
+                a = QMessageBox.information(self, "提示", f"該動物不是{data[0][-1]}", QMessageBox.Yes)
         else:  # 正向推理
             s = self.input.toPlainText()
             tl = ""
