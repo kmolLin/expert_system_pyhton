@@ -78,6 +78,12 @@ class mywindow(QWidget, Ui_Animals):
                 print(i[-1])
                 print("驗證成功")
                 break
+            elif 0 < c < (i.__len__() - 1):
+                flag = True
+                print(i[-1])
+                print("可能接近")
+                self.showlabel.setText(f"可能接近 {c / (i.__len__() - 1)}")
+                break
             else:
                 flag = False
                 print(i[-1])

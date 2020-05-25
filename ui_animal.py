@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
- 
+
 # Form implementation generated from reading ui file '動物識別專家系統.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
- 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QFont
 class Ui_Animals(object):
@@ -63,6 +63,12 @@ class Ui_Animals(object):
         self.pushButton_3.setGeometry(QtCore.QRect(500, 300, 91, 31))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.setFont(QFont("Roman times", 10, QFont.Bold))
+
+        self.showlabel = QtWidgets.QLabel(Animals)
+        self.showlabel.setGeometry(QtCore.QRect(100, 240, 141, 201))
+        self.showlabel.setObjectName("showlabel")
+        self.showlabel.setFont(QFont("Roman times", 10, QFont.Bold))
+
         self.retranslateUi(Animals)
         self.pushButton.clicked.connect(Animals.test)
         self.comboBox.activated['int'].connect(Animals.selectChange)
@@ -80,3 +86,4 @@ class Ui_Animals(object):
         self.checkBox.setText(_translate("Animals", "反向推理"))
         self.pushButton_2.setText(_translate("Animals", "初始化"))
         self.pushButton_3.setText(_translate("Animals", "修改規則庫"))
+        self.showlabel.setText(_translate("Animals", "test"))
