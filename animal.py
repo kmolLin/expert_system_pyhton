@@ -43,6 +43,7 @@ class mywindow(QWidget, Ui_Animals):
             ls = line.strip('\n').split(" ")
             mywindow.fact.append(ls)
         f.close()
+        self.texx = None
         for i in mywindow.fact:
             for j in range(0, len(i) - 2):
                 mywindow.conditions.add(i[j])
@@ -81,7 +82,9 @@ class mywindow(QWidget, Ui_Animals):
             elif 0 < c < (i.__len__() - 1):
                 flag = True
                 print(i[-1])
+                self.texx = "可能接近"
                 print("可能接近")
+                print(c, i.__len__() - 1)
                 self.showlabel.setText(f"可能接近 {c / (i.__len__() - 1)}")
                 break
             else:
@@ -108,8 +111,12 @@ class mywindow(QWidget, Ui_Animals):
             data = getData(s)
             print(data)
             if self.backs(data):
-                a = QMessageBox.information(self, "提示", f"該動物是{data[0][-1]}", QMessageBox.Yes)
-                self.result.setText("專家系統分析該動物是" + data[0][-1])
+                if self.texx:
+                    QMessageBox.information(self, "提示", f"該動物可能是{data[0][-1]}", QMessageBox.Yes)
+                    self.result.setText("專家系統分析該動物可能是" + data[0][-1])
+                else:
+                    QMessageBox.information(self, "提示", f"該動物是{data[0][-1]}", QMessageBox.Yes)
+                    self.result.setText("專家系統分析該動物是" + data[0][-1])
             else:
                 self.result.setText("專家分析該動物不是" + data[0][-1])
                 a = QMessageBox.information(self, "提示", f"該動物不是{data[0][-1]}", QMessageBox.Yes)
